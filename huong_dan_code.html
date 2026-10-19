@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sổ Tay Hướng Dẫn Code Tay - TechStore Microservices</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-body: #0d1117;
+            --bg-sidebar: #161b22;
+            --bg-card: #1c2128;
+            --border-color: #30363d;
+            --text-main: #e6edf3;
+            --text-muted: #8b949e;
+            --primary-accent: #58a6ff;
+            --success-accent: #3fb950;
+            --warning-accent: #d29922;
+            --code-bg: #0b0e14;
+            --code-border: #21262d;
+            --font-ui: 'Plus Jakarta Sans', sans-serif;
+            --font-code: 'JetBrains Mono', monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            font-family: var(--font-ui);
+            line-height: 1.6;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+        aside {
+            width: 320px;
+            background-color: var(--bg-sidebar);
+            border-right: 1px solid var(--border-color);
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            overflow-y: auto;
+            padding: 24px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            z-index: 100;
+        }
+
+        .sidebar-brand h2 {
+            font-size: 18px;
+            font-weight: 800;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sidebar-brand h2 span {
+            background: linear-gradient(90deg, var(--primary-accent), #bc8cff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .sidebar-brand p {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .nav-section-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            padding: 10px 12px 4px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            color: var(--text-main);
+            background: rgba(88, 166, 255, 0.1);
+        }
+
+        .nav-item.active {
+            color: var(--primary-accent);
+            font-weight: 600;
+        }
+
+        .badge-step {
+            font-family: var(--font-code);
+            font-size: 10px;
+            font-weight: 700;
+            background: #21262d;
+            padding: 2px 6px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+        }
+
+        .sidebar-footer {
+            margin-top: auto;
+            padding-top: 16px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .btn-progress-tracker {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 10px;
+            background: linear-gradient(90deg, #238636, #2ea043);
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 700;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: opacity 0.2s;
+        }
+
+        .btn-progress-tracker:hover {
+            opacity: 0.9;
+        }
+
+        /* MAIN CONTENT */
+        main {
+            margin-left: 320px;
+            flex: 1;
+            padding: 40px 60px;
+            max-width: 1000px;
+        }
+
+        /* HEADER BANNER */
+        .content-header {
+            margin-bottom: 40px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .content-header h1 {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .content-header p {
+            color: var(--text-muted);
+            font-size: 15px;
+        }
+
+        /* SECTION STYLING */
+        section {
+            margin-bottom: 60px;
+            scroll-margin-top: 40px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 16px;
+        }
+
+        .step-pill {
+            background: var(--primary-accent);
+            color: #0b0e14;
+            font-family: var(--font-code);
+            font-size: 12px;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-radius: 6px;
+        }
+
+        h2 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        p {
+            margin-bottom: 16px;
+            color: #c9d1d9;
+            font-size: 14px;
+        }
+
+        /* CODE BLOCK */
+        .code-container {
+            background: var(--code-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            margin: 18px 0 24px;
+            overflow: hidden;
+        }
+
+        .code-header {
+            background: var(--bg-card);
+            padding: 8px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .file-path {
+            font-family: var(--font-code);
+            font-size: 12px;
+            color: var(--primary-accent);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-copy {
+            background: #21262d;
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 4px 10px;
+            font-size: 11px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-copy:hover {
+            background: #30363d;
+            border-color: #8b949e;
+        }
+
+        pre {
+            padding: 16px;
+            overflow-x: auto;
+            font-family: var(--font-code);
+            font-size: 13px;
+            line-height: 1.5;
+            color: #f0f6fc;
+        }
+
+        /* CALLOUT BOXES */
+        .callout {
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+            border-left: 4px solid;
+            font-size: 13px;
+        }
+
+        .callout.tip {
+            background: rgba(63, 185, 80, 0.1);
+            border-color: var(--success-accent);
+            color: #e6edf3;
+        }
+
+        .callout.important {
+            background: rgba(210, 153, 34, 0.1);
+            border-color: var(--warning-accent);
+            color: #e6edf3;
+        }
+
+        .callout strong {
+            display: block;
+            margin-bottom: 4px;
+            color: #ffffff;
+        }
+
+        @media (max-width: 900px) {
+            aside {
+                position: static;
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+            }
+            body {
+                flex-direction: column;
+            }
+            main {
+                margin-left: 0;
+                padding: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SIDEBAR -->
+    <aside>
+        <div class="sidebar-brand">
+            <h2>💻 <span>TechStore</span> Manual</h2>
+            <p>Sổ tay lập trình Microservices từng bước</p>
+        </div>
+
+        <nav class="nav-links">
+            <div class="nav-section-title">Nội Dung Hướng Dẫn</div>
+            <a href="#step-0" class="nav-item active"><span class="badge-step">0</span> Chuẩn bị PostgreSQL</a>
+            <a href="#step-1" class="nav-item"><span class="badge-step">1</span> Gradle Multi-Project</a>
+            <a href="#step-2" class="nav-item"><span class="badge-step">2</span> Chuẩn hóa ApiResponse</a>
+            <a href="#step-3" class="nav-item"><span class="badge-step">3</span> Auth Service & JWT</a>
+            <a href="#step-4" class="nav-item"><span class="badge-step">4</span> Catalog & Cloudinary</a>
+            <a href="#step-5" class="nav-item"><span class="badge-step">5</span> Inventory & Serial</a>
+            <a href="#step-6" class="nav-item"><span class="badge-step">6</span> Order & Checkout</a>
+            <a href="#step-7" class="nav-item"><span class="badge-step">7</span> Payment & VNPay</a>
+            <a href="#step-8" class="nav-item"><span class="badge-step">8</span> API Gateway :8080</a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <a href="tien_trinh_du_an.html" class="btn-progress-tracker" target="_blank">
+                📋 Mở Bảng Tiến Trình (Checklist)
+            </a>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main>
+        <div class="content-header">
+            <h1>🚀 Hướng Dẫn Tự Code Tay Hệ Thống TechStore</h1>
+            <p>Tài liệu này được biên soạn để bạn có thể mở trên trình duyệt, đọc hiểu từng dòng lệnh kiến trúc và tự tay gõ vào IDE (IntelliJ IDEA / VS Code).</p>
+        </div>
+
+        <!-- BƯỚC 0 -->
+        <section id="step-0">
+            <div class="section-header">
+                <span class="step-pill">BƯỚC 0</span>
+                <h2>Khởi Tạo 6 Cơ Sở Dữ Liệu PostgreSQL</h2>
+            </div>
+            <p>Hệ thống áp dụng mô hình <strong>Database-per-Service</strong>. Mỗi service quản lý 1 database hoàn toàn độc lập trên cùng port PostgreSQL <code>:5432</code>.</p>
+            
+            <div class="callout tip">
+                <strong>💡 Hướng dẫn thực hiện:</strong>
+                Mở pgAdmin, DBeaver hoặc SQL Shell (psql) và dán câu lệnh sau để tạo 6 CSDL:
+            </div>
+
+            <div class="code-container">
+                <div class="code-header">
+                    <span class="file-path">📄 init_databases.sql</span>
+                    <button class="btn-copy" onclick="copyCode(this)">Sao chép</button>
+                </div>
+                <pre><code>CREATE DATABASE auth_db;
+CREATE DATABASE catalog_db;
+CREATE DATABASE inventory_db;
+CREATE DATABASE order_db;
+CREATE DATABASE payment_db;
+CREATE DATABASE notification_db;</code></pre>
+            </div>
+        </section>
+
+        <!-- BƯỚC 1 -->
+        <section id="step-1">
+            <div class="section-header">
+                <span class="step-pill">BƯỚC 1</span>
+                <h2>Khởi Tạo Cấu Trúc Gradle Multi-Project</h2>
+            </div>
+            <p>Để quản lý 7 microservices trong một kho mã nguồn duy nhất, bạn cần tạo file <code>settings.gradle</code> và <code>build.gradle</code> tại thư mục gốc của dự án.</p>
+
+            <div class="code-container">
+                <div class="code-header">
+                    <span class="file-path">📁 settings.gradle (Root)</span>
+                    <button class="btn-copy" onclick="copyCode(this)">Sao chép</button>
+                </div>
+                <pre><code>rootProject.name = 'techstore-microservices'
+
+include 'api-gateway'
+include 'auth-service'
+include 'catalog-service'
+include 'inventory-service'
+include 'order-service'
+include 'payment-service'
+include 'notification-service'</code></pre>
+            </div>
+
+            <div class="code-container">
+                <div class="code-header">
+                    <span class="file-path">📁 build.gradle (Root)</span>
+                    <button class="btn-copy" onclick="copyCode(this)">Sao chép</button>
+                </div>
+                <pre><code>plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.3.4' apply false
+    id 'io.spring.dependency-management' version '1.1.6' apply false
+}
+
+allprojects {
+    group = 'com.techstore'
+    version = '1.0.0-SNAPSHOT'
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'io.spring.dependency-management'
+
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(17)
+        }
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        compileOnly 'org.projectlombok:lombok'
+        annotationProcessor 'org.projectlombok:lombok'
+        testCompileOnly 'org.projectlombok:lombok'
+        testAnnotationProcessor 'org.projectlombok:lombok'
+    }
+}</code></pre>
+            </div>
+        </section>
+
+        <!-- BƯỚC 2 -->
+        <section id="step-2">
+            <div class="section-header">
+                <span class="step-pill">BƯỚC 2</span>
+                <h2>Chuẩn Hóa ApiResponse & GlobalExceptionHandler</h2>
+            </div>
+            <p>Mọi Controller trong hệ thống đều phải bọc dữ liệu trả về trong <code>ApiResponse&lt;T&gt;</code> để đảm bảo tính nhất quán cho Frontend.</p>
+
+            <div class="code-container">
+                <div class="code-header">
+                    <span class="file-path">📄 ApiResponse.java (DTO Response)</span>
+                    <button class="btn-copy" onclick="copyCode(this)">Sao chép</button>
+                </div>
+                <pre><code>package com.techstore.catalog.dto.response;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.*;
+import java.time.LocalDateTime;
+
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class ApiResponse&lt;T&gt; {
+    private int code;
+    private String message;
+    private T data;
+    @Builder.Default
+    private LocalDateTime timestamp = LocalDateTime.now();
+
+    public static &lt;T&gt; ApiResponse&lt;T&gt; success(T data, String message) {
+        return ApiResponse.&lt;T&gt;builder()
+                .code(200)
+                .message(message)
+                .data(data)
+                .build();
+    }
+
+    public static &lt;T&gt; ApiResponse&lt;T&gt; error(int code, String message) {
+        return ApiResponse.&lt;T&gt;builder()
+                .code(code)
+                .message(message)
+                .build();
+    }
+}</code></pre>
+            </div>
+        </section>
+
+        <!-- BƯỚC 3 -->
+        <section id="step-3">
+            <div class="section-header">
+                <span class="step-pill">BƯỚC 3</span>
+                <h2>Code Tay Auth & User Service (:8081)</h2>
+            </div>
+            <p>Dịch vụ quản lý người dùng với Spring Security và JJWT.</p>
+
+            <div class="code-container">
+                <div class="code-header">
+                    <span class="file-path">📁 auth-service/src/.../entity/User.java</span>
+                    <button class="btn-copy" onclick="copyCode(this)">Sao chép</button>
+                </div>
+                <pre><code>package com.techstore.auth.entity;
+
+import jakarta.persistence.*;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+@Entity
+@Table(name = "users")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
+
+    @Column(unique = true, nullable = false, length = 50)
+    private String username;
+
+    @Column(unique = true, nullable = false, length = 100)
+    private String email;
+
+    @Column(nullable = false)
+    private String password;
+
+    private String fullName;
+    private String phoneNumber;
+
+    @Enumerated(EnumType.STRING)
+    private Role role; // ROLE_CUSTOMER, ROLE_STAFF, ROLE_ADMIN
+
+    @Builder.Default
+    private boolean active = true;
+
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+}</code></pre>
+            </div>
+        </section>
+
+        <!-- BƯỚC 4 -->
+        <section id="step-4">
+            <div class="section-header">
+                <span class="step-pill">BƯỚC 4</span>
+                <h2>Code Tay Product Catalog Service (:8082 - Upload Cloudinary)</h2>
+            </div>
+            <p>Quản lý Laptop Gaming, PC, Linh kiện máy tính và thông số kỹ thuật (CPU, RAM, GPU, Màn hình).</p>
+
+            <div class="callout important">
+                <strong>⚠️ Lưu ý về Upload File:</strong>
+                Trong Controller, phương thức tiếp nhận ảnh bắt buộc phải sử dụng <code>@ModelAttribute</code> thay vì <code>@RequestBody</code> để Spring xử lý được cả <code>MultipartFile</code> và form data.
+            </div>
+
+            <div class="code-container">
+                <div class="code-header">
+                    <span class="file-path">📁 catalog-service/src/.../controller/ProductController.java</span>
+                    <button class="btn-copy" onclick="copyCode(this)">Sao chép</button>
+                </div>
+                <pre><code>package com.techstore.catalog.controller;
+
+import com.techstore.catalog.dto.request.ProductCreateDTO;
+import com.techstore.catalog.dto.response.ApiResponse;
+import com.techstore.catalog.entity.Product;
+import com.techstore.catalog.service.ProductService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import java.io.IOException;
+
+@RestController
+@RequestMapping("/api/v1/catalog/products")
+@RequiredArgsConstructor
+public class ProductController {
+    private final ProductService productService;
+
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity&lt;ApiResponse&lt;Product&gt;&gt; createProduct(
+            @Valid @ModelAttribute ProductCreateDTO dto) throws IOException {
+        Product created = productService.createProduct(dto);
+        return ResponseEntity.ok(ApiResponse.success(created, "Thêm sản phẩm thành công!"));
+    }
+}</code></pre>
+            </div>
+        </section>
+
+        <!-- BƯỚC 5 -->
+        <section id="step-5">
+            <div class="section-header">
+                <span class="step-pill">BƯỚC 5</span>
+                <h2>Code Tay Inventory & Warranty Service (:8083 - Serial & Bảo Hành)</h2>
+            </div>
+            <p>Nghiệp vụ cốt lõi của ngành máy tính: Quản lý số Serial/IMEI của từng chiếc máy và kích hoạt hạn bảo hành theo thời gian mua.</p>
+
+            <div class="code-container">
+                <div class="code-header">
+                    <span class="file-path">📁 inventory-service/src/.../entity/SerialNumber.java</span>
+                    <button class="btn-copy" onclick="copyCode(this)">Sao chép</button>
+                </div>
+                <pre><code>package com.techstore.inventory.entity;
+
+import jakarta.persistence.*;
+import lombok.*;
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+@Entity
+@Table(name = "serial_numbers")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class SerialNumber {
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
+
+    @Column(nullable = false, unique = true, length = 100)
+    private String serialCode; // Ví dụ: SN-ROG-2026-998811
+
+    @Column(nullable = false, length = 50)
+    private String productSku;
+
+    private UUID orderId; // Logical Reference
+
+    @Enumerated(EnumType.STRING)
+    private SerialStatus status; // IN_STOCK, RESERVED, SOLD, WARRANTY_REPAIR
+
+    private LocalDateTime warrantyStartDate;
+    private LocalDateTime warrantyEndDate; // Ngày kết thúc bảo hành (24 hoặc 36 tháng)
+}</code></pre>
+            </div>
+        </section>
+
+        <!-- BƯỚC 6 -->
+        <section id="step-6">
+            <div class="section-header">
+                <span class="step-pill">BƯỚC 6</span>
+                <h2>Code Tay Order Service (:8084 - Idempotency Checkout)</h2>
+            </div>
+            <p>Bắt buộc kiểm tra Header <code>Idempotency-Key</code> để chống người dùng nhấn nút Đặt hàng 2 lần liên tục.</p>
+
+            <div class="code-container">
+                <div class="code-header">
+                    <span class="file-path">📁 order-service/src/.../controller/OrderController.java</span>
+                    <button class="btn-copy" onclick="copyCode(this)">Sao chép</button>
+                </div>
+                <pre><code>@PostMapping("/checkout")
+public ResponseEntity&lt;ApiResponse&lt;OrderResponse&gt;&gt; checkout(
+        @RequestHeader("Idempotency-Key") String idempotencyKey,
+        @Valid @RequestBody CheckoutRequest request) {
+    OrderResponse order = orderService.processCheckout(idempotencyKey, request);
+    return ResponseEntity.ok(ApiResponse.success(order, "Tạo đơn hàng thành công!"));
+}</code></pre>
+            </div>
+        </section>
+
+        <!-- BƯỚC 7 -->
+        <section id="step-7">
+            <div class="section-header">
+                <span class="step-pill">BƯỚC 7</span>
+                <h2>Code Tay Payment Service (:8085 - Tích Hợp VNPay)</h2>
+            </div>
+            <p>Sinh URL thanh toán VNPay và xử lý Webhook IPN đối soát giao dịch.</p>
+
+            <div class="code-container">
+                <div class="code-header">
+                    <span class="file-path">📁 payment-service/src/.../VNPayUtil.java</span>
+                    <button class="btn-copy" onclick="copyCode(this)">Sao chép</button>
+                </div>
+                <pre><code>public static String hmacSHA512(String key, String data) {
+    try {
+        Mac hmac512 = Mac.getInstance("HmacSHA512");
+        SecretKeySpec secretKey = new SecretKeySpec(key.getBytes(StandardCharsets.UTF_8), "HmacSHA512");
+        hmac512.init(secretKey);
+        byte[] hash = hmac512.doFinal(data.getBytes(StandardCharsets.UTF_8));
+        StringBuilder result = new StringBuilder();
+        for (byte b : hash) {
+            result.append(String.format("%02x", b));
+        }
+        return result.toString();
+    } catch (Exception ex) {
+        throw new RuntimeException("Lỗi sinh chữ ký số VNPay: " + ex.getMessage());
+    }
+}</code></pre>
+            </div>
+        </section>
+
+        <!-- BƯỚC 8 -->
+        <section id="step-8">
+            <div class="section-header">
+                <span class="step-pill">BƯỚC 8</span>
+                <h2>Code Tay API Gateway (:8080 - Spring Cloud Gateway)</h2>
+            </div>
+            <p>Cổng tiếp nhận và phân luồng tới các Microservices.</p>
+
+            <div class="code-container">
+                <div class="code-header">
+                    <span class="file-path">📁 api-gateway/src/main/resources/application.properties</span>
+                    <button class="btn-copy" onclick="copyCode(this)">Sao chép</button>
+                </div>
+                <pre><code>server.port=8080
+spring.application.name=api-gateway
+
+# ROUTING
+spring.cloud.gateway.routes[0].id=auth-service
+spring.cloud.gateway.routes[0].uri=http://localhost:8081
+spring.cloud.gateway.routes[0].predicates[0]=Path=/api/v1/auth/**, /api/v1/users/**
+
+spring.cloud.gateway.routes[1].id=catalog-service
+spring.cloud.gateway.routes[1].uri=http://localhost:8082
+spring.cloud.gateway.routes[1].predicates[0]=Path=/api/v1/catalog/**
+
+spring.cloud.gateway.routes[2].id=inventory-service
+spring.cloud.gateway.routes[2].uri=http://localhost:8083
+spring.cloud.gateway.routes[2].predicates[0]=Path=/api/v1/inventory/**
+
+spring.cloud.gateway.routes[3].id=order-service
+spring.cloud.gateway.routes[3].uri=http://localhost:8084
+spring.cloud.gateway.routes[3].predicates[0]=Path=/api/v1/orders/**
+
+spring.cloud.gateway.routes[4].id=payment-service
+spring.cloud.gateway.routes[4].uri=http://localhost:8085
+spring.cloud.gateway.routes[4].predicates[0]=Path=/api/v1/payments/**</code></pre>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        function copyCode(button) {
+            const container = button.closest('.code-container');
+            const code = container.querySelector('code').innerText;
+            navigator.clipboard.writeText(code).then(() => {
+                const originalText = button.innerText;
+                button.innerText = '✓ Đã chép!';
+                button.style.backgroundColor = '#238636';
+                button.style.color = '#ffffff';
+                setTimeout(() => {
+                    button.innerText = originalText;
+                    button.style.backgroundColor = '';
+                    button.style.color = '';
+                }, 2000);
+            });
+        }
+
+        // Active nav state on scroll
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section');
+            const navItems = document.querySelectorAll('.nav-item');
+            let current = '';
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 120) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navItems.forEach(item => {
+                item.classList.remove('active');
+                if (item.getAttribute('href') === `#${current}`) {
+                    item.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
