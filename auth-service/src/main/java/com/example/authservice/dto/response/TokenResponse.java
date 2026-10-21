@@ -14,5 +14,5 @@ public class TokenResponse {
 
     @Builder.Default
     private String tokenType = "Bearer"; // Tiêu chuẩn token type, mặc định là "Bearer"
-    private String expiresIn; // Thời gian sống của access token (ví dụ: "15m", "1h", "7d")
+    private long expiresIn; // Thời gian sống của access token (tính theo giây, ví dụ 3600 = 1 giờ)
 }
