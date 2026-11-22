@@ -1,0 +1,9 @@
+rootProject.name = 'techstore'
+
+include 'api-gateway'
+include 'auth-service'
+include 'catalog-service'
+include 'inventory-service'
+include 'order-service'
+include 'payment-service'
+include 'notification-service'

@@ -1,3 +1,14 @@
+server:
+  port: 8080
+
 spring:
   application:
     name: api-gateway
+
+services:
+  auth: http://localhost:8081
+  catalog: http://localhost:8082
+  inventory: http://localhost:8083
+  order: http://localhost:8084
+  payment: http://localhost:8085
+  notification: http://localhost:8086
